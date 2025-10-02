@@ -1,2 +1,3 @@
-# osd
-open source projects
+# <프로젝트>
+앞으로 열심히 수업을 듣도록 하겠습니다.
+
