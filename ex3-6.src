@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# 인자를 최소 2개 이상 받아야 함
+if [ $# -lt 2 ]; then
+    echo "Usage: ./ex3-6.sh arg1 arg2 [arg3 ...]"
+    exit 1
+fi
+
+echo "== ex3-6: Python 실행파일을 시작합니다 =="
+./ex3-6.py "$@"
+echo "== ex3-6: Python 실행파일이 끝났습니다 =="

@@ -1,0 +1,50 @@
+#!/bin/bash
+
+echo "과목 개수를 입력하세요:"
+read n
+
+if [ "$n" -lt 2 ]; then
+    echo "과목 수는 최소 2개 이상이어야 합니다."
+    exit 1
+fi
+
+sum=0
+i=1
+
+echo "각 과목의 점수(0~100)를 입력하세요."
+while [ $i -le $n ]
+do
+    read -p "$i 번째 과목 점수: " score
+
+    # 범위 체크
+    if [ "$score" -lt 0 ] || [ "$score" -gt 100 ]; then
+        echo "0~100 사이의 값만 입력하세요."
+        continue
+    fi
+
+    # 등급 계산 (90 이상 A, 아니면 B)
+    if [ "$score" -ge 90 ]; then
+        grade="A"
+    else
+        grade="B"
+    fi
+
+    echo "  → 점수: $score, 등급: $grade"
+
+    sum=$((sum + score))
+    i=$((i + 1))
+done
+
+# 평균 및 평균 등급
+avg=$((sum / n))
+
+if [ "$avg" -ge 90 ]; then
+    avg_grade="A"
+else
+    avg_grade="B"
+fi
+
+echo "---------------------------"
+echo "평균 점수: $avg"
+echo "평균 등급: $avg_grade"
+

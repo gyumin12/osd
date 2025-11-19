@@ -1,0 +1,72 @@
+#!/bin/bash
+
+DB_FILE="DB.txt"
+
+# DB 파일 없으면 생성
+if [ ! -f "$DB_FILE" ]; then
+    touch "$DB_FILE"
+fi
+
+add_member() {
+    echo "== 팀원 정보 추가 =="
+    read -p "이름: " name
+    read -p "생일 또는 전화번호: " info
+    echo "M|$name|$info" >> "$DB_FILE"
+    echo "저장 완료."
+}
+
+add_log() {
+    echo "== 팀원과 한 일 기록 =="
+    read -p "날짜(예: 2025-11-17): " date
+    read -p "이름: " name
+    read -p "수행한 내용: " content
+    echo "L|$date|$name|$content" >> "$DB_FILE"
+    echo "기록 완료."
+}
+
+search_member() {
+    echo "== 팀원 검색 (이름으로) =="
+    read -p "검색할 이름: " name
+    echo "---- 검색 결과 ----"
+    grep "^M|$name|" "$DB_FILE" | while IFS='|' read type n info
+    do
+        echo "이름: $n, 정보: $info"
+    done
+}
+
+search_log_by_date() {
+    echo "== 수행 내용 검색 (날짜로) =="
+    read -p "검색할 날짜(예: 2025-11-17): " date
+    echo "---- 검색 결과 ----"
+    grep "^L|$date|" "$DB_FILE" | while IFS='|' read type d n content
+    do
+        echo "날짜: $d, 이름: $n, 내용: $content"
+    done
+}
+
+while true
+do
+    echo "============================"
+    echo "1) 팀원 정보 추가"
+    echo "2) 팀원과 한 일 기록"
+    echo "3) 팀원 검색"
+    echo "4) 수행 내용 검색(날짜별)"
+    echo "5) 종료"
+    echo "============================"
+    read -p "메뉴 선택(1-5): " menu
+
+    case "$menu" in
+        1) add_member ;;
+        2) add_log ;;
+        3) search_member ;;
+        4) search_log_by_date ;;
+        5)
+            echo "프로그램을 종료합니다."
+            break
+            ;;
+        *)
+            echo "1~5 사이 번호를 입력하세요."
+            ;;
+    esac
+    echo
+done

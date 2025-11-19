@@ -1,0 +1,55 @@
+#!/bin/bash
+
+show_users() {
+    echo "=== 현재 로그인한 사용자 정보 ==="
+    who
+}
+
+show_cpu_or_gpu() {
+    echo "=== GPU / CPU 사용률 확인 ==="
+    if command -v nvidia-smi >/dev/null 2>&1; then
+        # GPU가 있는 경우
+        nvidia-smi
+    else
+        # GPU 없으면 CPU 사용률 스냅샷 (top 비대화형 모드)
+        top -b -n 1 | head -n 15
+    fi
+}
+
+show_memory() {
+    echo "=== 메모리 사용량 (free -h) ==="
+    free -h
+}
+
+show_disk() {
+    echo "=== 디스크 사용량 (df -h) ==="
+    df -h
+}
+
+while true
+do
+    echo "=============================="
+    echo "1) 사용자 정보 확인"
+    echo "2) GPU 또는 CPU 사용률 확인"
+    echo "3) 메모리 사용량 확인"
+    echo "4) 디스크 사용량 확인"
+    echo "5) 종료"
+    echo "=============================="
+    read -p "메뉴 선택(1-5): " menu
+
+    case "$menu" in
+        1) show_users ;;
+        2) show_cpu_or_gpu ;;
+        3) show_memory ;;
+        4) show_disk ;;
+        5)
+            echo "프로그램을 종료합니다."
+            break
+            ;;
+        *)
+            echo "1~5 사이의 숫자를 입력하세요."
+            ;;
+    esac
+
+    echo
+done
